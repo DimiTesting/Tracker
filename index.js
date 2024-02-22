@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import pg from "pg"
 
 const app = express();
-const port = 3000;
+const port = 4000;
 const db = new pg.Client({
   user: "postgres", 
   host: "localhost", 
@@ -63,16 +63,14 @@ app.post("/add", async(req, res) => {
       } catch (err) {
           console.log(err)
       }
-  } else {
+  } else if (todayItem===undefined && weekItem===undefined && monthItem) {
       try {
         await db.query("INSERT INTO month (title) VALUES ($1)", [monthItem])
         res.redirect("/");
       } catch (err) {
           console.log(err)
       }
-  }
-
-
+  } 
 });
 
 app.post("/edit", async(req, res) => {
